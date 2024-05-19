@@ -1,6 +1,7 @@
 package com.codesbybhuwan.restfulApi.implementation;
 
 import com.codesbybhuwan.restfulApi.entities.User;
+import com.codesbybhuwan.restfulApi.exceptions.ResourceNotFoundException;
 import com.codesbybhuwan.restfulApi.payloads.UserDto;
 import com.codesbybhuwan.restfulApi.repository.UserRepo;
 import com.codesbybhuwan.restfulApi.services.UserService;
@@ -15,7 +16,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserDto createUser(UserDto userDto) {
-
+//Here we will create User
         User user = this.dtoToUser(userDto);
 //        here we have to convert UserDto to user
         User savedUser = this.userRepo.save(user);
@@ -23,7 +24,11 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserDto updateUser(UserDto user, Integer userId) {
+    public UserDto updateUser(UserDto userDto, Integer userId) {
+//        Here we will code to update user content
+        User user =this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","id",userId));
+        
+
         return null;
     }
 
