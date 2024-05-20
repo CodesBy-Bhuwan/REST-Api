@@ -5,6 +5,7 @@ import com.codesbybhuwan.restfulApi.exceptions.ResourceNotFoundException;
 import com.codesbybhuwan.restfulApi.payloads.UserDto;
 import com.codesbybhuwan.restfulApi.repository.UserRepo;
 import com.codesbybhuwan.restfulApi.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,11 @@ public class UserServiceImplementation implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+
+
+//    This ModelMapper is used to convert user into userDto automatically
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -70,26 +76,37 @@ public class UserServiceImplementation implements UserService {
         User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user", "Id", userId));
         this.userRepo.delete(user);
     }
-
+//This is manual technique
 //    These methods will allow us to connect User with UserDto
-    private User dtoToUser(UserDto userDto){
+//    This will convert userDto to USer obj
+//    private User dtoToUser(UserDto userDto){
+//
+//        User user = new User();
+//        user.setId(userDto.getId());
+//        user.setName(userDto.getName());
+//        user.setEmail(userDto.getEmail());
+//        user.setAbout(userDto.getAbout());
+//        user.setPassword(userDto.getPassword());
+//        return user;
+//    }
+////    This will convert user to userDto obj
+//    public UserDto userToDto(User user){
+//        UserDto userDto= new UserDto();
+//        userDto.setId(user.getId());
+//        userDto.setName(user.getName());
+//        userDto.setEmail(user.getEmail());
+//        userDto.setAbout(user.getAbout());
+//        userDto.setPassword(user.getPassword());
+//        return userDto;
+//    }
 
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setAbout(userDto.getAbout());
-        user.setPassword(userDto.getPassword());
+//    ####Alternative maethod is using ModelMapping technique
+    private User dtoToUser(UserDto userDto){
+        User user = this.modelMapper.map(userDto, User.class);
         return user;
     }
-
-    public UserDto userToDto(User user){
-        UserDto userDto= new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setAbout(user.getAbout());
-        userDto.setPassword(user.getPassword());
+    private UserDto userToDto(User user){
+        UserDto userDto = this.modelMapper.map(user, UserDto.class);
         return userDto;
     }
 }
