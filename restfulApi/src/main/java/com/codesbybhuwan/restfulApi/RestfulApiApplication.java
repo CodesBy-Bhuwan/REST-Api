@@ -1,7 +1,9 @@
 package com.codesbybhuwan.restfulApi;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class RestfulApiApplication {
@@ -10,4 +12,9 @@ public class RestfulApiApplication {
 		SpringApplication.run(RestfulApiApplication.class, args);
 	}
 
+	@Bean
+	public ModelMapper modelMapper(){
+
+		return new ModelMapper();
+	}
 }
