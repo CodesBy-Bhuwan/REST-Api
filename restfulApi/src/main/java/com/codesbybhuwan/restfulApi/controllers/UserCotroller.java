@@ -3,6 +3,7 @@ package com.codesbybhuwan.restfulApi.controllers;
 import com.codesbybhuwan.restfulApi.payloads.ApiResponse;
 import com.codesbybhuwan.restfulApi.payloads.UserDto;
 import com.codesbybhuwan.restfulApi.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class UserCotroller {
     private UserService userService;
 //    1. POST - create user
     @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+//    We are using @Valid annotation to enable HiberValidate so that enter value pass the condition
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 
         UserDto createUserDto = this.userService.createUser(userDto);
         return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
@@ -31,7 +33,7 @@ public class UserCotroller {
 //   ==>> public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto , @PathVariable("userId") Integer uId)
 //    Else initialize varname in @PathVar so that new name can be set different
 
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto , @PathVariable("userId") Integer uId){
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto , @PathVariable("userId") Integer uId){
         UserDto updatedUser = this.userService.updateUser(userDto, uId);
         return ResponseEntity.ok(updatedUser);
     }
