@@ -7,7 +7,6 @@ import com.codesbybhuwan.restfulApi.repository.CategoryRepo;
 import com.codesbybhuwan.restfulApi.services.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Autowired
     private CategoryRepo categoryRepo;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -66,7 +64,8 @@ public class CategoryServiceImplementation implements CategoryService {
     public List<CategoryDto> getCategories() {
 
         List<Category> categories = this.categoryRepo.findAll();
-        List <CategoryDto> catDtos = categories.stream().map((cat)-> this.modelMapper.map(cat, CategoryDto.class)).collect(Collectors.toList());
+        List <CategoryDto> catDtos = categories
+                .stream().map((cat)-> this.modelMapper.map(cat, CategoryDto.class)).collect(Collectors.toList());
 
         return catDtos;
     }
