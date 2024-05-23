@@ -1,30 +1,29 @@
 package com.codesbybhuwan.restfulApi.controllers;
 
-
 import com.codesbybhuwan.restfulApi.payloads.ApiResponse;
 import com.codesbybhuwan.restfulApi.payloads.CategoryDto;
 import com.codesbybhuwan.restfulApi.services.CategoryService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
 
+    @Autowired
     private CategoryService categoryService;
-
 
 //    1. Create
     @PostMapping("/")
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoyDto){
 
-        CategoryDto createCategory = this.categoryService.createCategory(categoryDto);
-        return new ResponseEntity<CategoryDto>(createCategory, HttpStatus.CREATED);
+        CategoryDto createCategory = this.categoryService.createCategory(categoyDto);
+        return new ResponseEntity<>(createCategory, HttpStatus.CREATED);
     }
-
 
 //    2. Update
     @PutMapping("/{catId}")
@@ -54,7 +53,7 @@ public ResponseEntity<CategoryDto> getCategory(@PathVariable Integer catId){
 @GetMapping("/")
 public ResponseEntity<List<CategoryDto>> getCategories(){
 
-    List<CategoryDto> categories = this.categoryService.getCategories();
-    return ResponseEntity.ok(categories);
-}
+//    List<CategoryDto> categories = this.categoryService.getAllCategories();
+    return ResponseEntity.ok(this.categoryService.getCategories());
+    }
 }
