@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class CategoryDto {
 
-    private Integer categoryId;
+    private int categoryId;
     private String categoryTitle;
     private String categoryDescription;
 
