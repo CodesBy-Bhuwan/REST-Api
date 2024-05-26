@@ -8,7 +8,8 @@ import java.util.List;
 public interface PostService {
 
 //    Create
-    Post createPost(PostDto postDto);
+    PostDto createPost(PostDto postDto, Integer categoryId, Integer userId);
+//    Here we take args for catagoryId and userID
 
 //    Update
     Post updatePost(PostDto postDto, Integer postId);
