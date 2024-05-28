@@ -24,10 +24,10 @@ public interface PostService {
     List<Post> geAllPost();
 
 //    GetAll post by category
-    List<Post> getPostByCategory(Integer categoryId);
+    List<PostDto> getPostByCategory(Integer categoryId);
 
 //    GeAll post by user
-    List<Post> getPostByUser(Integer userId);
+    List<PostDto> getPostByUser(Integer userId);
 
 //    SearchPost
     List<Post> searchPost(String keyword);
