@@ -1,7 +1,5 @@
 package com.codesbybhuwan.restfulApi.controllers;
 
-
-import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
 import com.codesbybhuwan.restfulApi.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +20,10 @@ public class PostController {
     public ResponseEntity<PostDto> createPost(
             @RequestBody PostDto postDto,
             @PathVariable Integer userId,
-            @PathVariable Integer categroyId){
+            @PathVariable Integer categoryId){
 
-        PostDto createPost = this.postService.createPost(postDto, userId, categroyId);
-        return new ResponseEntity<PostDto>(createPost, HttpStatus.CREATED);
+        PostDto createPost = this.postService.createPost(postDto, userId, categoryId);
+        return new ResponseEntity<>(createPost, HttpStatus.CREATED);
 
     }
 }
