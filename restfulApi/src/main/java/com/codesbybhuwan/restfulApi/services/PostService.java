@@ -9,7 +9,7 @@ public interface PostService {
 
 //    Create
     PostDto createPost(PostDto postDto, Integer categoryId, Integer userId);
-//    Here we take args for catagoryId and userID
+//    Here we take args for categoryId and userID
 
 //    Update
     Post updatePost(PostDto postDto, Integer postId);

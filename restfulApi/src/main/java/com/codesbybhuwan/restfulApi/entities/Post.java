@@ -1,6 +1,5 @@
 package com.codesbybhuwan.restfulApi.entities;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,18 +21,18 @@ public class Post {
     @Column(name = "post_title", nullable = false)
     private String title;
 
-    @Column (length = 1000)
+    @Column (name= "content")
     private String content;
     private String imageName;
     private Date addDate;
 
 //    Creating Relationships
 //    In category if the is oneToMany then we need to annote with ManyToOne here
-    @ManyToMany
+    @ManyToOne
 //    We can also use JOIN
     @JoinColumn(name = "category_id")
     private Category category;
-    @ManyToMany
+    @ManyToOne
     private User user;
 
 }

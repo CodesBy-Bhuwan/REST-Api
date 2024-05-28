@@ -39,7 +39,7 @@ public class PostServiceImplementation implements PostService {
         Category category = this.categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "Category id", categoryId));
 
 
-//        Using ModelMapper tech conver postDto into post
+//        Using ModelMapper tech convert postDto into post
         Post post = this.modelMapper.map(postDto, Post.class);
 //        Using this modelMapper only title and content will only be mapped but for entity we have to set manually
 //        Which entities has to be set see form Post.
