@@ -1,7 +1,4 @@
 package com.codesbybhuwan.restfulApi.payloads;
-
-import com.codesbybhuwan.restfulApi.entities.Category;
-import com.codesbybhuwan.restfulApi.entities.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +17,7 @@ public class PostDto {
 //    Eventhough we won't pass tara we will have to return so se decalre reaming entities
     private String imageName;
     private Date addDate;
-    private Category category;
-    private User user;
+//    There is no post operation in CategoryDto and UserDto
+    private CategoryDto category;
+    private UserDto user;
 }
