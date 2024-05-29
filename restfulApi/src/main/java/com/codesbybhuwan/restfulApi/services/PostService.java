@@ -12,16 +12,16 @@ public interface PostService {
 //    Here we take args for categoryId and userID
 
 //    Update
-    Post updatePost(PostDto postDto, Integer postId);
+    PostDto updatePost(PostDto postDto, Integer postId);
 
 //    Delete
     void deletePost(Integer postId);
 
 //    Get
-    Post getPostById(Integer postId);
+    PostDto getPostById(Integer postId);
 
 //    GetAll
-    List<Post> geAllPost();
+    List<PostDto> getAllPost();
 
 //    GetAll post by category
     List<PostDto> getPostByCategory(Integer categoryId);
