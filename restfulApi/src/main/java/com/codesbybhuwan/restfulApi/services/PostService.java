@@ -2,6 +2,7 @@ package com.codesbybhuwan.restfulApi.services;
 
 import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
+import com.codesbybhuwan.restfulApi.payloads.PostResponse;
 
 import java.util.List;
 
@@ -21,7 +22,8 @@ public interface PostService {
     PostDto getPostById(Integer postId);
 
 //    GetAll
-    List<PostDto> getAllPost(Integer pageNumber, Integer pageSize);
+//    Now we will havt to list on pages so PostDto will be on PostResponse coz we need only few content in a page
+    PostResponse getAllPost(Integer pageNumber, Integer pageSize);
 
 //    GetAll post by category
     List<PostDto> getPostByCategory(Integer categoryId);

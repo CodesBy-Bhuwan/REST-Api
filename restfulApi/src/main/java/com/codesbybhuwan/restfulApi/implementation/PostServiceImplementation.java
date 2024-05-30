@@ -5,6 +5,7 @@ import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.entities.User;
 import com.codesbybhuwan.restfulApi.exceptions.ResourceNotFoundException;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
+import com.codesbybhuwan.restfulApi.payloads.PostResponse;
 import com.codesbybhuwan.restfulApi.repository.CategoryRepo;
 import com.codesbybhuwan.restfulApi.repository.PostRepo;
 import com.codesbybhuwan.restfulApi.repository.UserRepo;
@@ -78,12 +79,13 @@ public class PostServiceImplementation implements PostService {
     @Override
     public PostDto getPostById(Integer postId) {
 
-        Post post = this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "post id", postId));
+        Post post = this.postRepo.findById(postId)
+                .orElseThrow(()-> new ResourceNotFoundException("Post", "post id", postId));
         return this.modelMapper.map(post, PostDto.class);
     }
 
     @Override
-    public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
 //        We need to add pagination and shorting since getAllPost might have enormous number of contents or Post
 //        int pageSize = 5;
 //        int pageNumber = 1;
@@ -91,13 +93,21 @@ public class PostServiceImplementation implements PostService {
 
         Pageable p = PageRequest.of(pageNumber, pageSize);
         Page<Post> pagePost = this.postRepo.findAll(p);
-
         List<Post> allPosts = pagePost.getContent();
 
 //        List<Post> allPosts = this.postRepo.findAll();
-        List<PostDto> postDtos = allPosts.stream().map((post) -> this.modelMapper.map(post,PostDto.class)).collect(Collectors.toList());
+        List<PostDto> postDtos = allPosts.stream().map((post) -> this.modelMapper.map(post,PostDto.class))
+                .collect(Collectors.toList());
 
-        return postDtos;
+//        For pagination we need to set in what page, how many pages, in what page what content,pageNum+TotalPages...
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(postDtos);
+        postResponse.setPageNumber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPage(pagePost.isLast());
+        return postResponse;
     }
 
     @Override
