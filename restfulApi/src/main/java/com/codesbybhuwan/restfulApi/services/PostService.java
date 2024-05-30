@@ -23,7 +23,7 @@ public interface PostService {
 
 //    GetAll
 //    Now we will havt to list on pages so PostDto will be on PostResponse coz we need only few content in a page
-    PostResponse getAllPost(Integer pageNumber, Integer pageSize);
+    PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortByDir);
 
 //    GetAll post by category
     List<PostDto> getPostByCategory(Integer categoryId);
