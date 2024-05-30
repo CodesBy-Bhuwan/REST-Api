@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -85,13 +86,24 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortByDir) {
 //        We need to add pagination and shorting since getAllPost might have enormous number of contents or Post
+/////////////////////////////Instead of Using if..else.. better using ternary operation
+//        Sort sort= null;
+//        if(sortByDir.equalsIgnoreCase("asc")){
+//            sort =Sort.by(sortBy).ascending();
+//        }else{
+//            sort =Sort.by(sortBy).descending();
+//        }
+         Sort sort = (sortByDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+
+
+
 //        int pageSize = 5;
 //        int pageNumber = 1;
 //        Now we need to get pageSize and number dynamically;
 
-        Pageable p = PageRequest.of(pageNumber, pageSize);
+        Pageable p = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePost = this.postRepo.findAll(p);
         List<Post> allPosts = pagePost.getContent();
 
