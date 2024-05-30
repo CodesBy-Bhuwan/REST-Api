@@ -3,6 +3,7 @@ package com.codesbybhuwan.restfulApi.controllers;
 import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.payloads.ApiResponse;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
+import com.codesbybhuwan.restfulApi.payloads.PostResponse;
 import com.codesbybhuwan.restfulApi.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,12 +48,12 @@ public class PostController {
     }
     //    Get All Post
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDto>> getAllPost(
-            @RequestParam(value = "pageNumber", defaultValue = "1", required= false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize
+    public ResponseEntity<PostResponse> getAllPost(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required= false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize
     ){
-        List<PostDto> allPost = this.postService.getAllPost(pageNumber, pageSize);
-        return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
+        PostResponse postResponse = this.postService.getAllPost(pageNumber, pageSize);
+        return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
     //    Get post By Id
     @GetMapping("/posts/{postId}")
