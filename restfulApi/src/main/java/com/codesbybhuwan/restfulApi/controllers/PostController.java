@@ -29,7 +29,6 @@ public class PostController {
         PostDto createPost = this.postService.createPost(postDto, userId, categoryId);
         return new ResponseEntity<>(createPost, HttpStatus.CREATED);
     }
-
 //    GetByUser
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<List<PostDto>> getPostsByUser(
@@ -38,7 +37,6 @@ public class PostController {
         List<PostDto> posts = this.postService.getPostByUser(userId);
         return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
     }
-
     //    GetByCategory
     @GetMapping("/category/{categoryId}/posts")
     public ResponseEntity<List<PostDto>> getPostsByCategory(
@@ -47,14 +45,15 @@ public class PostController {
         List<PostDto> posts = this.postService.getPostByCategory(categoryId);
         return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
     }
-
     //    Get All Post
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDto>> getAllPost(){
-        List<PostDto> allPost = this.postService.getAllPost();
+    public ResponseEntity<List<PostDto>> getAllPost(
+            @RequestParam(value = "pageNumber", defaultValue = "1", required= false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize
+    ){
+        List<PostDto> allPost = this.postService.getAllPost(pageNumber, pageSize);
         return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
     }
-
     //    Get post By Id
     @GetMapping("/posts/{postId}")
     public ResponseEntity<PostDto> getPostById(
@@ -63,7 +62,6 @@ public class PostController {
             PostDto postDto = this.postService.getPostById(postId);
             return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
     }
-
     //delete Post
     @DeleteMapping("/posts/{postId}")
     public ApiResponse deletePost(
@@ -71,9 +69,7 @@ public class PostController {
     ){
         this.postService.deletePost(postId);
         return new ApiResponse("Post Successfully Deleted", true);
-
     }
-
     @PutMapping("/posts/{postId}")
     public ResponseEntity<PostDto> updatePost(
             @RequestBody PostDto postDto,
@@ -82,6 +78,4 @@ public class PostController {
         PostDto updatePost = this.postService.updatePost(postDto, postId);
         return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
     }
-
-
 }
