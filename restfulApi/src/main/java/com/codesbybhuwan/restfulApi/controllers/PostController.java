@@ -1,5 +1,6 @@
 package com.codesbybhuwan.restfulApi.controllers;
 
+import com.codesbybhuwan.restfulApi.config.AppConstants;
 import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.payloads.ApiResponse;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
@@ -49,10 +50,11 @@ public class PostController {
     //    Get All Post
     @GetMapping("/posts")
     public ResponseEntity<PostResponse> getAllPost(
-            @RequestParam(value = "pageNumber", defaultValue = "0", required= false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
-            @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-            @RequestParam(value = "SortByDir", defaultValue = "asc", required = false) String sortByDir
+//            A good-practice in coding is for Hard-Coded Values like we have used
+            @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required= false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "SortByDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortByDir
     ){
         PostResponse postResponse = this.postService.getAllPost(pageNumber, pageSize, sortBy, sortByDir);
         return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
