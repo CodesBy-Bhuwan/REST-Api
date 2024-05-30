@@ -11,6 +11,9 @@ import com.codesbybhuwan.restfulApi.repository.UserRepo;
 import com.codesbybhuwan.restfulApi.services.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -80,9 +83,18 @@ public class PostServiceImplementation implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPost() {
+    public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+//        We need to add pagination and shorting since getAllPost might have enormous number of contents or Post
+//        int pageSize = 5;
+//        int pageNumber = 1;
+//        Now we need to get pageSize and number dynamically;
 
-        List<Post> allPosts = this.postRepo.findAll();
+        Pageable p = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pagePost = this.postRepo.findAll(p);
+
+        List<Post> allPosts = pagePost.getContent();
+
+//        List<Post> allPosts = this.postRepo.findAll();
         List<PostDto> postDtos = allPosts.stream().map((post) -> this.modelMapper.map(post,PostDto.class)).collect(Collectors.toList());
 
         return postDtos;
