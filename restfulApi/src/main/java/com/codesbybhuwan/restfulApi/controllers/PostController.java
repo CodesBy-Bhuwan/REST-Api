@@ -1,21 +1,24 @@
 package com.codesbybhuwan.restfulApi.controllers;
 
 import com.codesbybhuwan.restfulApi.config.AppConstants;
-import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.payloads.ApiResponse;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
 import com.codesbybhuwan.restfulApi.payloads.PostResponse;
 import com.codesbybhuwan.restfulApi.services.FileService;
 import com.codesbybhuwan.restfulApi.services.PostService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -118,4 +121,17 @@ public class PostController {
         return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
 
     }
+
+//    To serve file/image
+    @GetMapping(value = "post/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadImage(
+            @PathVariable("imageName") String imageName,
+            HttpServletResponse response
+    ) throws IOException{
+
+        InputStream resource = this.fileService.getResource(path, imageName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
+    }
+
 }
