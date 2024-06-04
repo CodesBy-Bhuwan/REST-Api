@@ -5,12 +5,17 @@ import com.codesbybhuwan.restfulApi.entities.Post;
 import com.codesbybhuwan.restfulApi.payloads.ApiResponse;
 import com.codesbybhuwan.restfulApi.payloads.PostDto;
 import com.codesbybhuwan.restfulApi.payloads.PostResponse;
+import com.codesbybhuwan.restfulApi.services.FileService;
 import com.codesbybhuwan.restfulApi.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,6 +24,13 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private FileService fileService;
+
+    @Value("${project.image}")
+//   here ${project.image} must be same as in app.prop shows that type of file
+    private String path;
 
 //    Create
     @PostMapping("/user/{userId}/category/{categoryId}/posts")
@@ -91,6 +103,19 @@ public class PostController {
     ){
         List<PostDto> result = this.postService.searchPost(keywords);
         return new ResponseEntity<List<PostDto>>(result, HttpStatus.OK);
+
+    }
+//    Post Image Upload
+    @PostMapping("/post/image/upload/{postId}")
+    public ResponseEntity<PostDto> uploadPostImage(
+            @RequestParam("image")MultipartFile image,
+            @PathVariable Integer postId
+            ) throws IOException {
+        String fileName = this.fileService.uploadImage(path, image);
+        PostDto postDto = this.postService.getPostById(postId);
+        postDto.setImageName(fileName);
+        PostDto updatePost = this.postService.updatePost(postDto, postId);
+        return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
 
     }
 }
