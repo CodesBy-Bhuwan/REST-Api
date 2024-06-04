@@ -1,9 +1,12 @@
 package com.codesbybhuwan.restfulApi.payloads;
+import com.codesbybhuwan.restfulApi.entities.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,4 +24,8 @@ public class PostDto {
 //    There is no post operation in CategoryDto and UserDto
     private CategoryDto category;
     private UserDto user;
+
+
+//    Since we can make API for comment but here we will list those comments
+    private Set<CommentDto> comments = new HashSet<>();
 }
