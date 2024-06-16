@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
 //    1. Create
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoyDto){
 
@@ -26,6 +28,7 @@ public class CategoryController {
     }
 
 //    2. Update
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{catId}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable Integer catId){
 
@@ -34,26 +37,29 @@ public class CategoryController {
     }
 
 //    3. Delete
-@DeleteMapping("/{catId}")
-public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer catId){
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{catId}")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer catId){
 
     this.categoryService.deleteCategory(catId);
     return new ResponseEntity<ApiResponse>(new ApiResponse("Category deleted successfully", true), HttpStatus.OK);
-}
-
-//    4. Get
-@GetMapping("/{catId}")
-public ResponseEntity<CategoryDto> getCategory(@PathVariable Integer catId){
-
-    CategoryDto categoryDto = this.categoryService.getCategory(catId);
-    return new ResponseEntity<CategoryDto>(categoryDto, HttpStatus.OK);
-}
-
-//    5. GetAll
-@GetMapping("/")
-public ResponseEntity<List<CategoryDto>> getCategories(){
-
-//    List<CategoryDto> categories = this.categoryService.getAllCategories();
-    return ResponseEntity.ok(this.categoryService.getCategories());
     }
+
+    //    4. Get
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/{catId}")
+    public ResponseEntity<CategoryDto> getCategory(@PathVariable Integer catId){
+
+        CategoryDto categoryDto = this.categoryService.getCategory(catId);
+        return new ResponseEntity<CategoryDto>(categoryDto, HttpStatus.OK);
+    }
+
+    //    5. GetAll
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/")
+    public ResponseEntity<List<CategoryDto>> getCategories(){
+
+    //    List<CategoryDto> categories = this.categoryService.getAllCategories();
+        return ResponseEntity.ok(this.categoryService.getCategories());
+        }
 }
