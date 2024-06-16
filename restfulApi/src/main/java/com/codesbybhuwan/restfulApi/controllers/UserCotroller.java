@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class UserCotroller {
     }
 
 //    3. DELETE - delete user
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer uid){
         this.userService.deleteUser(uid);
@@ -49,6 +51,7 @@ public class UserCotroller {
 
 //    4. GET - find/get user
 //    4.1 Get Multiple Users
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAllUsers(){
 

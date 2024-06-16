@@ -17,8 +17,18 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
         @Bean
         public UserDetailsService userDetailsService(){
 
-            UserDetails user = User.builder().username("admin").password(passwordEncoder().encode("abc")).roles("ADMIN").build();
-            UserDetails user1 = User.builder().username("admin1").password(passwordEncoder().encode("abc")).roles("ADMIN").build();
+            UserDetails user = User
+                    .builder()
+                    .username("admin")
+                    .password(passwordEncoder().encode("abc"))
+                    .roles("ADMIN")
+                    .build();
+            UserDetails user1 = User
+                    .builder()
+                    .username("admin1")
+                    .password(passwordEncoder().encode("abc"))
+                    .roles("ADMIN")
+                    .build();
             return new InMemoryUserDetailsManager(user, user1);
 
         }
