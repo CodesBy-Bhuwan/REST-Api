@@ -1,15 +1,20 @@
 package com.codesbybhuwan.restfulApi.implementation;
 
+import com.codesbybhuwan.restfulApi.config.AppConstants;
+import com.codesbybhuwan.restfulApi.entities.Role;
 import com.codesbybhuwan.restfulApi.entities.User;
 import com.codesbybhuwan.restfulApi.exceptions.ResourceNotFoundException;
 import com.codesbybhuwan.restfulApi.payloads.UserDto;
+import com.codesbybhuwan.restfulApi.repository.RoleRepo;
 import com.codesbybhuwan.restfulApi.repository.UserRepo;
 import com.codesbybhuwan.restfulApi.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +22,14 @@ public class UserServiceImplementation implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+
+//    # make sure password and role material conversion imported
+//    To handle password for security purp for new user mainly
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+//    To handle role for newUser just registered
+    @Autowired
+    private RoleRepo roleRepo;
 
 
 //    This ModelMapper is used to convert user into userDto automatically
@@ -76,7 +89,24 @@ public class UserServiceImplementation implements UserService {
         User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user", "Id", userId));
         this.userRepo.delete(user);
     }
-//This is manual technique
+
+//    #RegNewUser service Implementation
+    @Override
+    public UserDto registerNewUser(UserDto userDto) {
+
+        User user = this.modelMapper.map(userDto, User.class);
+//        We have to make sure pwd and role well handled
+//        1. Firstly the entered password will be encoded
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+//        2. Roles has to be set
+        Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+        user.getRoles().add(role);
+
+        User newUser = this.userRepo.save(user);
+
+        return this.modelMapper.map(newUser, UserDto.class);
+    }
+//This is manual technique but we can use ModelMapper instead
 //    These methods will allow us to connect User with UserDto
 //    This will convert userDto to USer obj
 //    private User dtoToUser(UserDto userDto){

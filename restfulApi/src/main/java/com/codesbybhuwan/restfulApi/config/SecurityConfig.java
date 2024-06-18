@@ -36,7 +36,7 @@ public class SecurityConfig {
 //        Disable, role management, sessionManagement, Request && Exception handling are the basic to represent here
         http.csrf( csrf -> csrf.disable())
                 .cors(cors -> cors.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("home/**")
+                .authorizeHttpRequests(auth -> auth.requestMatchers("api/**")
 //                        .role("ADMIN") for specific role can only access the request or authenticated
                         .authenticated()
                         .requestMatchers("auth/login")

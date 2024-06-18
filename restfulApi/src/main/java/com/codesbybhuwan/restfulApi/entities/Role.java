@@ -11,7 +11,8 @@ import lombok.Data;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    In most of the case we have less role so we needn't to autoGen but already assign roles
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 

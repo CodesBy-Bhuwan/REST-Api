@@ -1,12 +1,15 @@
 package com.codesbybhuwan.restfulApi.payloads;
 
 
+import com.codesbybhuwan.restfulApi.entities.Role;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collector;
 
 @NoArgsConstructor
@@ -31,5 +34,7 @@ public class UserDto {
 
     @NotEmpty
     private String about;
+
+    private Set<RoleDto> roles =new HashSet<>();
 
 }
