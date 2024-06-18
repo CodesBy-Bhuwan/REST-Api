@@ -2,8 +2,10 @@ package com.codesbybhuwan.restfulApi.controllers;
 
 
 import com.codesbybhuwan.restfulApi.helper.JwtHelper;
+import com.codesbybhuwan.restfulApi.payloads.UserDto;
 import com.codesbybhuwan.restfulApi.security.JwtRequest;
 import com.codesbybhuwan.restfulApi.security.JwtResponse;
+import com.codesbybhuwan.restfulApi.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,10 @@ public class AuthController {
     @Autowired
     private JwtHelper helper;
 
+//    For new user register
+    @Autowired
+    private UserService userService;
+
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/login")
@@ -55,6 +61,15 @@ public class AuthController {
             throw new RuntimeException("Invlid Username or Password !!");
         }
 
+    }
+
+//    # RegNewUser API
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
+        UserDto registeredUser = this.userService.registerNewUser(userDto);
+
+        return new ResponseEntity<UserDto>(registeredUser, HttpStatus.CREATED);
     }
 
 }
