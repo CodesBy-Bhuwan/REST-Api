@@ -1,1 +1,4 @@
-Complete Rest-Api: Backend Work using spring boot java 
+# Personal Blog Restful Api
+
+**Backend**:  Spring Boot, Spring Hibernate(ORM)  
+**Database**: MySql
